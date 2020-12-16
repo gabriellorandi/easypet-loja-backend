@@ -1,0 +1,25 @@
+{
+  "name": "easypet-loja-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gabriellorandi/easypet-loja-backend.git"
+  },
+  "author": "Gabriel B Lorandi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gabriellorandi/easypet-loja-backend/issues"
+  },
+  "homepage": "https://github.com/gabriellorandi/easypet-loja-backend#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.11.8"
+  }
+}
