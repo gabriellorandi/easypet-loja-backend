@@ -5,7 +5,8 @@ let UserSchema = new mongoose.Schema({
 
     cpf:{ type: String, required: true, minlength: 11, maxlength: 16 },
     email: { type: String, required: true },    
-    password: { type: String, required: true }
+    password: { type: String, required: true },
+    token: { type: String }
 
 });
 

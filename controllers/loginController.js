@@ -21,6 +21,10 @@ let LoginController = {
 
             let token = auth.token(user.id);
 
+            user.token = token;
+
+            user.save();
+
             res.status(200).json({
                 email: user.email,
                 tokenType: 'Bearer',                

@@ -28,61 +28,62 @@ let ProdutoController = {
 
     },
 
-    add: async function(req, res){
+    add: async function(message){
 
-        let produto = await Produto.findOne({_id:req.params.produtoId});
-        if(!produto) return ErrorHandler.handle('Produto não encontrado',null,res,404);    
+        try {
 
-        let produto = new Produto();
-        produto = Object.assign(produto,req.body);
+            let produto = JSON.parse(message.value);
 
-        produto.save(function (err) {
-            if(err) return ErrorHandler.handle('Erro ao salvar produto',err,res,500);
+            let produto = await Produto.findOne({_id:produto.id});
+            if(!produto) return ErrorHandler.handle('Produto não encontrado',null,res,404);    
 
-            return res.status(201).send({
-                Produto: produto
-            });
-        })
 
-    },
+            produto.save(function (err) {
+                if(err) return console.log('Error ao adicionar produto '+err);
+            })
 
-    update: async function(req, res){
-
-        let produto = await Produto.findOne({_id:req.params.produtoId});
-        if(!produto) return ErrorHandler.handle('Produto não encontrada',err,res,404);
-
-        let update = { $set: {
-            'descricao':  req.body.produto.descricao,
-            'codigo':  req.body.produto.codigo,
-            'quantidade':  req.body.produto.quantidade,
-            'preco':  req.body.produto.preco
-        } };
-        let conditions = {_id: req.params.produtoId};
-
-        Produto.findOneAndUpdate( conditions , update, function(err,produtoUpdate) {
-            if(err) return ErrorHandler.handle('Erro ao atualizar produto',err,res,500);
-
-            return res.status(201).send({
-                Produto: produtoUpdate
-            });
-        })
+        } catch(err) {
+            console.log('Error ao adicionar produto '+err);
+        }
 
     },
 
-    delete: async function(req, res){
+    update: async function(message){
 
-        let produto = await Produto.findOne({_id:req.params.produtoId});
-        if(!produto) return ErrorHandler.handle('Produto não encontrada',err,res,404);
+        try {
 
-        let conditions = {_id: req.params.produtoId};
+            let produto = JSON.parse(message.value);
 
-        Produto.deleteOne(conditions , function(err,produtoDelete) {
-            if(err) return ErrorHandler.handle('Erro ao deletar produto',err,res,500);
+            let produto = await Produto.findOne({_id:produto.id});
+            if(!produto) return ErrorHandler.handle('Produto não encontrado',null,res,404);    
 
-            return res.status(200).send({
-                ConProdutosulta: produtoDelete
-            });
-        })
+            let conditions = { _id: produto.id };
+
+            Produto.findOneAndUpdate(conditions, produto, function (err) {
+                if(err) console.log('Error ao adicionar produto '+err);;            
+            })
+
+        } catch(err) {
+            console.log('Error ao adicionar produto '+err);
+        }
+
+    },
+
+    delete: async function(message){
+    
+        try {
+
+            let produtoId = JSON.parse(message.value);
+    
+            let conditions = {_id: produtoId};
+    
+            Produto.deleteOne(conditions , function(err) {
+                if(err) return ErrorHandler.handle('Erro ao deletar produto',err,res,500);            
+            })
+
+        } catch(err) {
+            console.log('Error ao adicionar produto '+err);
+        }
 
     }
 
