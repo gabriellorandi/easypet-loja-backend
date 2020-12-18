@@ -7,7 +7,7 @@ let ProdutoSchema = new mongoose.Schema({
     quantidade: { type: Number, required: true  },
     preco: { type: Number, required: true  },
 
-});
+}, { __v: false });
 
 ProdutoSchema.set('toObject', { virtuals: true })
 ProdutoSchema.set('toJSON', { virtuals: true })

@@ -5,7 +5,7 @@ const ErrorHandler = require('../util/errorHandler');
 
 let CompraController = {
 
-    getAll: function(req, res){
+    getAll: async function(req, res){
 
         let token = req.headers.authorization.split(" ")[1];
         let user = await User.findOne({token:token});
@@ -31,7 +31,7 @@ let CompraController = {
 
         if(!user) return ErrorHandler.handle('Usuário não encontrado',err,res,404);
 
-        let conditions = {user:user,_id: req.params.compraId};
+        let conditions = {user:user,_id: req.params.id};
 
         Compra.find(conditions,function(err,compra) {
 
@@ -46,13 +46,15 @@ let CompraController = {
 
     },
 
-    add: function(req, res){
+    add: async function(req, res){
 
         let token = req.headers.authorization.split(" ")[1];
         let user = await User.findOne({token:token});
 
         if(!user) return ErrorHandler.handle('Usuário não encontrado',err,res,404);
 
+        let compra = Compra();
+        compra.user = user;
         compra.produtos = [];
         for(let produtoId of req.body.produtosId){
 
@@ -80,7 +82,7 @@ let CompraController = {
 
         if(!user) return ErrorHandler.handle('Usuário não encontrado',err,res,404);
 
-  
+        let compra = Compra();
         compra.produtos = [];
         for(let produtoId of req.body.produtosId){
 
@@ -116,9 +118,9 @@ let CompraController = {
 
         let conditions = {user:user,_id: req.params.consultaId};
 
-        Compra.deleteOne(conditions,function(err,compras) {
+        Compra.deleteOne(conditions,function(err,compra) {
 
-            if(err) return ErrorHandler.handle('Erro ao recuperar compras',err,res,500);         
+            if(err) return ErrorHandler.handle('Erro ao deletar compra',err,res,500);         
  
             return res.status(200).send({
                 Compra: compra

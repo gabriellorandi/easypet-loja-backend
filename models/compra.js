@@ -8,6 +8,6 @@ let compraSchema = new mongoose.Schema({
     produtos:[ { type: mongoose.Schema.Types.ObjectId, ref: 'Produto' } ],
     data:{ type: Date },    
 
-});
+}, { __v: false });
 
 module.exports = mongoose.model('Compra', compraSchema);

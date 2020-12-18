@@ -8,9 +8,14 @@ let UserSchema = new mongoose.Schema({
     password: { type: String, required: true },
     token: { type: String }
 
-});
+}, { __v: false });
 
 UserSchema.set('toObject', { virtuals: true })
-UserSchema.set('toJSON', { virtuals: true })
+UserSchema.set('toJSON', function() {
+    var obj = this.toObject()
+    delete obj.password
+    delete obj.cpf
+    return obj
+ })
 
 module.exports  = mongoose.model('User', UserSchema);

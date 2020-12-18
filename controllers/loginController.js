@@ -46,7 +46,7 @@ let LoginController = {
                 return ErrorHandler.handle('Email ou Cpf já cadastrado',null,res,400);  
             } 
             else {
-
+         
                 bcrypt.hash(req.body.password, 2, function(err,hash) {
                     if(err) ErrorHandler.handle('Erro na criptografia da definição senha',err,res,500);           
         
